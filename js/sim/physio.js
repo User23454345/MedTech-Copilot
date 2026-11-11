@@ -244,6 +244,7 @@
     }
 
     src.pleth = function (t) {
+      if (t > lastT) { lastT = t; schedule(t); }
       if (state.spo2Probe === 'off') return 0.02 * Math.sin(t * 3);
       var hasPulse = state.rhythm !== 'vf' && state.rhythm !== 'asystole' && state.rhythm !== 'pea' && !(state.rhythm === 'vt' && !state.vtPulse);
       if (!hasPulse) return 0.02 * Math.sin(t * 2);
@@ -254,11 +255,13 @@
     };
 
     var dampState = 0;
-    src.art = function (t) {
+    src.art = function (t, raw) {
+      if (t > lastT) { lastT = t; schedule(t); }
       var hasPulse = state.rhythm !== 'vf' && state.rhythm !== 'asystole' && state.rhythm !== 'pea' && !(state.rhythm === 'vt' && !state.vtPulse);
       var offset = (state.transducerOffsetCm || 0) * -0.74; // Wandler zu hoch → Druck zu niedrig
-      if (!hasPulse) return MT.lerp(dampState || 20, 18, 0.01) + offset;
+      if (!hasPulse) return raw ? 18 : MT.lerp(dampState || 20, 18, 0.01) + offset;
       var sys = state.sys, dia = state.dia;
+      if (raw) return dia + (sys - dia) * MT.clamp(pulseSum(t, 0.18, 'normal'), 0, 1.3);
       var shape = pulseSum(t, 0.18, state.artDamping === 'under' ? 'under' : 'normal');
       var target = dia + (sys - dia) * MT.clamp(shape, 0, 1.3) / 1.0;
       if (state.artDamping === 'over') { dampState = dampState ? MT.lerp(dampState, target, 0.06) : target; return dampState + offset; }
