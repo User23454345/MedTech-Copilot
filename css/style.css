@@ -73,7 +73,7 @@ main { padding: 18px; max-width: 1680px; margin: 0 auto; outline: none; }
 kbd { background: #f1f4f7; border: 1px solid #cfd7e0; border-radius: 4px; padding: 0 5px; font-size: 12px; }
 
 /* ---------- Startseite / Krankenhausplan ---------- */
-.home-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 18px; align-items: stretch; }
+.home-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 18px; align-items: start; }
 .hero-text h1 { font-size: 30px; margin-bottom: 8px; }
 .hero-text .lead { font-size: 16px; color: var(--ink-2); }
 .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
@@ -312,7 +312,8 @@ kbd { background: #f1f4f7; border: 1px solid #cfd7e0; border-radius: 4px; paddin
 @media (max-width: 640px) {
   main { padding: 10px; }
   .topbar { flex-wrap: wrap; padding: 8px 10px; gap: 6px; }
-  .mainnav { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .mainnav { order: 3; flex: 1 1 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .topbar-right { margin-left: auto; }
   .mainnav a { padding: 6px 9px; font-size: 13px; white-space: nowrap; }
   .match-cols { grid-template-columns: 1fr; }
   .hero-stats { grid-template-columns: repeat(3, 1fr); }

@@ -549,7 +549,7 @@
     category: 'Labor / POCT',
     manufacturers: ['Radiometer', 'Siemens Healthineers', 'Werfen', 'Roche', 'Abbott'],
     mdr: 'IVD (IVDR)',
-    standards: ['ISO 15197 / ISO 22870 (POCT-Anforderungen)', 'Rili-BÄK (Qualitätssicherung)'],
+    standards: ['ISO 22870 (Point-of-Care-Testing)', 'Rili-BÄK (Qualitätssicherung)'],
     purpose: 'Schnelle Bestimmung von Blutgasen (pO₂, pCO₂), pH, Elektrolyten, Laktat und Hämoglobin direkt auf Station – Grundlage für Beatmungs- und Therapieentscheidungen.',
     function: 'Elektrochemische Sensoren messen: pH und Elektrolyte potentiometrisch (ionenselektive Elektroden), pCO₂ über die Severinghaus-Elektrode, pO₂ amperometrisch (Clark-Elektrode), Laktat/Glukose enzymatisch. Hämoglobin-Derivate (CO-Hb, Met-Hb) werden per CO-Oxymetrie spektralphotometrisch bestimmt.',
     components: [

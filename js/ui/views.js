@@ -52,7 +52,7 @@
       s += '<rect x="' + (x + 16) + '" y="' + (y + h - 30) + '" width="' + (w - 32) + '" height="8" rx="4" fill="#e5ebf1"/>';
       s += '<rect x="' + (x + 16) + '" y="' + (y + h - 30) + '" width="' + ((w - 32) * (n ? seen / n : 0)) + '" height="8" rx="4" fill="' + a.color + '"/>';
       s += '<text x="' + (x + w - 16) + '" y="' + (y + h - 36) + '" text-anchor="end" font-size="11" fill="#4a5a6b" font-family="system-ui">' + seen + '/' + n + ' erkundet</text>';
-      if (a.complete) s += '<g transform="translate(' + (x + w - 74) + ',' + (y + 64) + ')"><rect width="62" height="20" rx="10" fill="#1f9d55"/><text x="31" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="system-ui">SCHWERPUNKT</text></g>';
+      if (a.complete) s += '<g transform="translate(' + (x + w - 92) + ',' + (y + 64) + ')"><rect width="80" height="20" rx="10" fill="#1f9d55"/><text x="40" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="system-ui">SCHWERPUNKT</text></g>';
       if (visited) s += '<circle cx="' + (x + w - 16) + '" cy="' + (y + 22) + '" r="7" fill="#1f9d55"/>';
       s += '</g>';
     });
@@ -152,6 +152,7 @@
       room.highlight(devId);
       setTab('device');
       renderChips();
+      if (window.innerWidth < 1180) MT.$('.side', main).scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function setTab(t) {
