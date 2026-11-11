@@ -75,12 +75,12 @@
   });
 
   /* ---------- Zentrale / PDMS-Arbeitsplatz ---------- */
-  def('workstation', [260, 230], function () {
+  def('workstation', [260, 230], function (o) {
     return '<g filter="url(#f-shadow)">' +
       '<rect x="10" y="150" width="240" height="14" rx="3" fill="#b9c3cc"/>' +
       '<rect x="20" y="164" width="12" height="66" fill="#9aa5b1"/><rect x="228" y="164" width="12" height="66" fill="#9aa5b1"/>' +
-      '<rect x="18" y="20" width="108" height="78" rx="6" fill="url(#g-dark)"/>' + screenWaves(24, 26, 96, 66, 3) +
-      '<rect x="134" y="20" width="108" height="78" rx="6" fill="url(#g-dark)"/>' + textScreen(140, 26, 96, 66, '#9fd3ff', ['Bett 1  HF 82 SpO2 97', 'Bett 2  HF 64 SpO2 95', 'Bett 3  HF 78 SpO2 96', 'Bett 4  frei', 'PDMS · Kurve']) +
+      '<rect x="18" y="20" width="108" height="78" rx="6" fill="url(#g-dark)"/>' + (o.left ? textScreen(24, 26, 96, 66, '#ffd27a', o.left) : screenWaves(24, 26, 96, 66, 3)) +
+      '<rect x="134" y="20" width="108" height="78" rx="6" fill="url(#g-dark)"/>' + textScreen(140, 26, 96, 66, '#9fd3ff', o.right || ['Bett 1  HF 82 SpO2 97', 'Bett 2  HF 64 SpO2 95', 'Bett 3  HF 78 SpO2 96', 'Bett 4  frei', 'PDMS · Kurve']) +
       '<rect x="64" y="98" width="16" height="40" fill="#7d8894"/><rect x="180" y="98" width="16" height="40" fill="#7d8894"/>' +
       '<rect x="40" y="136" width="180" height="14" rx="3" fill="#2e3742"/><rect x="190" y="138" width="22" height="10" rx="5" fill="#59636e"/></g>';
   });

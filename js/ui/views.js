@@ -52,7 +52,7 @@
       s += '<rect x="' + (x + 16) + '" y="' + (y + h - 30) + '" width="' + (w - 32) + '" height="8" rx="4" fill="#e5ebf1"/>';
       s += '<rect x="' + (x + 16) + '" y="' + (y + h - 30) + '" width="' + ((w - 32) * (n ? seen / n : 0)) + '" height="8" rx="4" fill="' + a.color + '"/>';
       s += '<text x="' + (x + w - 16) + '" y="' + (y + h - 36) + '" text-anchor="end" font-size="11" fill="#4a5a6b" font-family="system-ui">' + seen + '/' + n + ' erkundet</text>';
-      if (a.complete) s += '<g transform="translate(' + (x + w - 74) + ',' + (y + 64) + ')"><rect width="62" height="20" rx="10" fill="#1f9d55"/><text x="31" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="system-ui">VOLLSTÄNDIG</text></g>';
+      if (a.complete) s += '<g transform="translate(' + (x + w - 74) + ',' + (y + 64) + ')"><rect width="62" height="20" rx="10" fill="#1f9d55"/><text x="31" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="#fff" font-family="system-ui">SCHWERPUNKT</text></g>';
       if (visited) s += '<circle cx="' + (x + w - 16) + '" cy="' + (y + 22) + '" r="7" fill="#1f9d55"/>';
       s += '</g>';
     });
@@ -75,7 +75,7 @@
       '<p class="disclaimer"><b>Lernumgebung:</b> Alle Patientinnen, Patienten und Messwerte sind fiktiv. Die Simulationen sind vereinfachte Modelle und ersetzen weder Geräteeinweisung (MPBetreibV) noch Gebrauchsanweisung oder klinische Ausbildung. Geräteabbildungen sind generisch; genannte Hersteller sind Beispiele.</p>' +
       '</div></section>' +
       '<div class="area-cards">' + MT.areas.map(function (a) {
-        return '<a class="area-card" style="--c:' + a.color + '" href="#/area/' + a.id + '"><h3><span>' + a.icon + '</span>' + MT.esc(a.name) + '</h3><p>' + MT.esc(a.description) + '</p><div class="meta"><span class="chip">' + (a.placements || []).length + ' Geräte</span><span class="chip">' + (a.scenarios || []).length + ' Szenario' + ((a.scenarios || []).length === 1 ? '' : 's') + '</span>' + (a.complete ? '<span class="chip ok">vollständig</span>' : '') + '</div></a>';
+        return '<a class="area-card" style="--c:' + a.color + '" href="#/area/' + a.id + '"><h3><span>' + a.icon + '</span>' + MT.esc(a.name) + '</h3><p>' + MT.esc(a.description) + '</p><div class="meta"><span class="chip">' + (a.placements || []).length + ' Geräte</span><span class="chip">' + (a.scenarios || []).length + ' Szenario' + ((a.scenarios || []).length === 1 ? '' : 's') + '</span>' + (a.complete ? '<span class="chip ok">Schwerpunkt</span>' : '') + '</div></a>';
       }).join('') + '</div>';
     MT.$$('.dept', main).forEach(function (g) {
       var go = function () { location.hash = '#/area/' + g.getAttribute('data-area'); };
@@ -106,7 +106,7 @@
 
     main.innerHTML =
       '<div class="area-layout"><div class="area-main">' +
-      '<div class="area-head"><a class="btn small" href="#/">← Plan</a><h1><span class="dot" style="background:' + area.color + '"></span>' + area.icon + ' ' + MT.esc(area.name) + '</h1>' + (area.complete ? '<span class="chip ok">vollständig ausgearbeitet</span>' : '') + '<span class="spacer"></span>' +
+      '<div class="area-head"><a class="btn small" href="#/">← Plan</a><h1><span class="dot" style="background:' + area.color + '"></span>' + area.icon + ' ' + MT.esc(area.name) + '</h1>' + (area.complete ? '<span class="chip ok">Schwerpunktbereich · 4 Szenarien</span>' : '') + '<span class="spacer"></span>' +
       '<div class="row">' + MT.areas.map(function (a) { return '<a class="chip" style="' + (a.id === id ? 'background:' + a.color + ';color:#fff;border-color:' + a.color : '') + '" href="#/area/' + a.id + '" title="' + MT.esc(a.name) + '">' + a.icon + '</a>'; }).join('') + '</div></div>' +
       (area.patientInfo ? '<div class="patient-strip">🧾 <span><b>LERNSZENARIO · FIKTIV:</b> ' + MT.esc(area.patientInfo) + '</span></div>' : '') +
       '<div class="room-wrap"><div id="room-host"></div><div class="room-toolbar">' +
