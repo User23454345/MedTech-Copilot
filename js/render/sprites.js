@@ -140,13 +140,23 @@
       '<path d="M62 76 C 62 140, 30 150, 30 200" stroke="rgba(160,190,220,.9)" fill="none" stroke-width="2"/>' +
       '<path d="M118 70 C 118 140, 150 150, 150 200" stroke="rgba(160,190,220,.9)" fill="none" stroke-width="2"/>' +
       // Pumpenrack
-      '<rect x="12" y="150" width="156" height="' + (pumps.length * 66 + 140) + '" rx="8" fill="#c8d1da" filter="url(#f-shadow)"/>';
+      '<rect x="12" y="150" width="156" height="' + (pumps.length * 66 + (o.noIV ? 16 : 140)) + '" rx="8" fill="#c8d1da" filter="url(#f-shadow)"/>';
     pumps.forEach(function (p, i) {
       out += '<g transform="translate(15,' + (156 + i * 66) + ')">' + S['syringe-pump'].draw(p) + '</g>';
     });
-    out += '<g transform="translate(35,' + (160 + pumps.length * 66) + ')">' + S['infusion-pump'].draw({ rate: o.ivRate || '80' }) + '</g>';
-    out += '<path d="M50 ' + (pumps.length * 66 + 296) + ' l-40 190 M130 ' + (pumps.length * 66 + 296) + ' l40 190" stroke="#8d98a4" stroke-width="5"/>' + wheel(12, 500 + 0, 8) + wheel(168, 500, 8) + '</g>';
+    if (!o.noIV) out += '<g transform="translate(35,' + (160 + pumps.length * 66) + ')">' + S['infusion-pump'].draw({ rate: o.ivRate || '80' }) + '</g>';
+    out += '<path d="M90 470 l-70 30 M90 470 l70 30" stroke="#8d98a4" stroke-width="5"/>' + wheel(20, 506, 8) + wheel(160, 506, 8) + '</g>';
     return out;
+  });
+
+
+  /* ---------- Infusionsständer mit einzelner Infusionspumpe ---------- */
+  def('iv-pole', [130, 520], function (o) {
+    return '<g><rect x="61" y="10" width="8" height="470" fill="url(#g-metal)"/><path d="M25 14 h80" stroke="#9aa5b1" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M30 20 h32 v56 q-16 14 -32 0 z" fill="rgba(230,245,255,.85)" stroke="#9fb3c8"/><text x="33" y="48" font-size="8" fill="#3b4b5c" font-family="system-ui">' + MT.esc(o.bag || 'Ringer') + '</text><rect x="42" y="76" width="8" height="12" fill="#cfd8e1"/>' +
+      '<path d="M46 88 C 46 130, 20 140, 20 200" stroke="rgba(160,190,220,.9)" fill="none" stroke-width="2"/>' +
+      '<g transform="translate(10,190)">' + S['infusion-pump'].draw({ rate: o.rate || '80' }) + '</g>' +
+      '<path d="M65 470 l-50 30 M65 470 l50 30" stroke="#8d98a4" stroke-width="5"/>' + wheel(15, 506, 8) + wheel(115, 506, 8) + '</g>';
   });
 
   /* ---------- Absaugung (Wand-Vakuumregler + Sekretbehälter) ---------- */
@@ -191,12 +201,14 @@
       // Matratze (Kopfteil angehoben 30°)
       '<path d="M50 150 L60 92 L210 132 L210 160 L670 160 L670 182 L50 182 Z" fill="#e8eef4" stroke="#b9c3cc"/>' +
       (occupied ?
-        // Patient (stilisiert) – Kopf, Decke
-        '<ellipse cx="96" cy="96" rx="26" ry="22" fill="url(#g-skin)"/><path d="M76 86 q20 -20 42 -2" fill="#5b4636"/>' +
-        '<path d="M70 112 q60 10 140 28 L640 140 q30 0 30 20 L210 160 Z" fill="url(#g-sheet)" stroke="#a9c1d6"/>' +
-        '<path d="M120 122 q40 2 90 16" fill="none" stroke="#a9c1d6"/>' +
-        // Tubus
-        '<path d="M110 100 h28" stroke="#e8f2fb" stroke-width="5" stroke-linecap="round"/><rect x="134" y="95" width="10" height="10" rx="2" fill="#3b8de0"/>' : '') +
+        // Kissen, Patient (stilisiert), Decke, Tubus
+        '<path d="M58 118 L68 70 Q72 60 84 64 L150 84 Q158 88 156 98 L148 132 Z" fill="#ffffff" stroke="#c3d0dc"/>' +
+        '<ellipse cx="104" cy="98" rx="30" ry="26" fill="url(#g-skin)"/><path d="M78 88 q22 -26 52 -6 q-10 -8 -26 -6 q-14 2 -26 12z" fill="#7a6250"/>' +
+        '<ellipse cx="124" cy="104" rx="4" ry="6" fill="#d9a17c"/>' +
+        '<path d="M120 124 q50 4 100 18 L640 142 q28 2 28 18 L210 160 L120 140 Z" fill="#cfe3f5" stroke="#9fbcd6"/>' +
+        '<path d="M150 128 q40 8 80 18 M300 146 q120 -4 300 -2" fill="none" stroke="#a9c6df" stroke-width="2"/>' +
+        '<path d="M126 126 q20 4 40 12 l-6 14 q-20 -8 -40 -12 z" fill="#b8d3ea"/>' +
+        '<path d="M128 104 h26" stroke="#e8f2fb" stroke-width="6" stroke-linecap="round"/><rect x="150" y="98" width="12" height="12" rx="2" fill="#3b8de0"/>' : '') +
       // Seitengitter
       '<rect x="230" y="120" width="220" height="40" rx="8" fill="rgba(200,215,230,.35)" stroke="#a7b4c1" stroke-width="3"/>' +
       '<rect x="470" y="124" width="180" height="36" rx="8" fill="rgba(200,215,230,.35)" stroke="#a7b4c1" stroke-width="3"/>' +

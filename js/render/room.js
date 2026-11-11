@@ -158,7 +158,7 @@
       if (!c.isConnected) return;
       var s = MT.setupCanvas(c), ctx = s.ctx;
       var st = settingsRef();
-      var waveW = Math.round(s.w * 0.7);
+      var waveW = Math.round(s.w * 0.66);
       if (W !== waveW) { W = waveW; bufP = new Array(W).fill(NaN); bufF = new Array(W).fill(NaN); wx = 0; }
       var pps = W / 8;
       var steps = Math.max(1, Math.round(dt * pps));
@@ -180,7 +180,7 @@
       plot(bufF, h2, h2, -70, 70, '#3fe0ff');
       var m = MT.physio.ventMetrics(st);
       ctx.fillStyle = '#0a1520'; ctx.fillRect(W, 0, s.w - W, s.h);
-      ctx.font = '600 ' + Math.max(7, Math.round(s.h * 0.1)) + 'px system-ui'; ctx.textBaseline = 'top';
+      ctx.font = '600 ' + Math.max(6, Math.min(Math.round(s.h * 0.1), Math.round((s.w - W) * 0.2))) + 'px system-ui'; ctx.textBaseline = 'top';
       var rows = [['Ppeak', st.disconnected ? '0' : MT.fmt(m.ppeak * (st.obstructed ? 1.45 : 1), 0)], ['PEEP', st.disconnected ? '0' : MT.fmt(st.peep, 0)], ['VTe', st.disconnected ? '0' : MT.fmt(m.vt, 0)], ['f', MT.fmt(st.rr, 0)], ['FiO₂', MT.fmt(st.fio2 * 100, 0)]];
       rows.forEach(function (r, i) {
         var y = 3 + i * s.h / rows.length;

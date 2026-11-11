@@ -206,17 +206,29 @@
       blocks.forEach(function (bk, i) {
         var y = top + i * bh;
         if (bk.alarm && Math.floor(blink * 2) % 2 === 0) { ctx.fillStyle = bk.alarm === 'high' ? 'rgba(224,24,45,0.55)' : 'rgba(242,183,5,0.45)'; ctx.fillRect(nx + 2, y + 2, numW - 4, bh - 4); }
-        ctx.fillStyle = bk.c; ctx.textBaseline = 'top'; ctx.textAlign = 'left';
-        ctx.font = '600 ' + Math.max(8, Math.round(bh * 0.2)) + 'px system-ui, sans-serif';
-        ctx.fillText(bk.k, nx + 6, y + 4);
-        ctx.font = '500 ' + Math.max(7, Math.round(bh * 0.15)) + 'px system-ui, sans-serif';
-        ctx.fillStyle = 'rgba(200,215,230,0.6)'; ctx.fillText(bk.u, nx + 6, y + 4 + Math.round(bh * 0.22));
-        ctx.fillStyle = bk.c; ctx.textAlign = 'right';
-        var fs = bk.small ? bh * 0.42 : bh * (bk.v.length > 4 ? 0.42 : 0.62);
-        ctx.font = '700 ' + Math.max(9, Math.round(Math.min(fs, numW * (bk.v.length > 4 ? 0.2 : 0.36)))) + 'px "Segoe UI", system-ui, sans-serif';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(bk.v, nx + numW - 6, y + bh * (bk.sub ? 0.5 : 0.58));
-        if (bk.sub) { ctx.font = '600 ' + Math.max(7, Math.round(bh * 0.17)) + 'px system-ui, sans-serif'; ctx.textBaseline = 'bottom'; ctx.fillText(bk.sub, nx + numW - 6, y + bh - 3); }
+        var long = bk.v.length > 4;
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        var lf = compact ? Math.max(6, Math.min(bh * 0.2, 9)) : Math.max(9, Math.round(bh * 0.2));
+        ctx.fillStyle = bk.c; ctx.font = '600 ' + lf + 'px system-ui, sans-serif';
+        ctx.fillText(bk.k, nx + 4, y + 3);
+        if (!compact) {
+          ctx.font = '500 ' + Math.max(8, Math.round(bh * 0.15)) + 'px system-ui, sans-serif';
+          ctx.fillStyle = 'rgba(200,215,230,0.6)'; ctx.fillText(bk.u, nx + 6, y + 4 + Math.round(bh * 0.22));
+        }
+        // Wertgröße so wählen, dass der Text in die verbleibende Breite passt
+        var avail = compact ? numW - 6 : numW - 12;
+        var fs = bk.small ? bh * 0.42 : bh * (long ? 0.42 : 0.62);
+        if (compact) fs = bh * (long ? 0.4 : 0.58);
+        ctx.font = '700 ' + Math.round(fs) + 'px "Segoe UI", system-ui, sans-serif';
+        var tw = ctx.measureText(bk.v).width;
+        if (tw > avail) { fs = fs * avail / tw; ctx.font = '700 ' + Math.max(6, Math.round(fs)) + 'px "Segoe UI", system-ui, sans-serif'; }
+        ctx.fillStyle = bk.c; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+        var vy = compact ? y + bh - (bk.sub ? bh * 0.2 : 1) : y + bh * (bk.sub ? 0.78 : 0.86);
+        ctx.fillText(bk.v, nx + numW - (compact ? 3 : 6), vy);
+        if (bk.sub && (!compact || bh > 26)) {
+          ctx.font = '600 ' + Math.max(6, Math.round(bh * (compact ? 0.16 : 0.17))) + 'px system-ui, sans-serif'; ctx.textBaseline = 'bottom';
+          ctx.fillText(bk.sub, nx + numW - (compact ? 3 : 6), y + bh - 2);
+        }
         ctx.textAlign = 'left';
       });
     }
