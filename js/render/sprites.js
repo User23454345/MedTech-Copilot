@@ -53,8 +53,10 @@
   }
   function textScreen(x, y, w, h, color, lines) {
     var out = '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="2" fill="url(#g-screen)"/>';
+    var maxLen = Math.max.apply(null, (lines || ['']).map(function (l) { return String(l).length; }).concat([1]));
+    var fs = Math.max(4, Math.min((h - 6) / ((lines || []).length + 0.6), (w - 8) / (maxLen * 0.62)));
     (lines || []).forEach(function (l, i) {
-      out += '<text x="' + (x + 4) + '" y="' + (y + 4 + (i + 1) * (h - 6) / (lines.length + 0.3)) + '" font-size="' + Math.max(5, (h - 6) / (lines.length + 0.6)) + '" fill="' + (color || '#7fe7ff') + '" font-family="monospace">' + MT.esc(l) + '</text>';
+      out += '<text x="' + (x + 4) + '" y="' + (y + 4 + (i + 1) * (h - 6) / (lines.length + 0.3)) + '" font-size="' + fs + '" fill="' + (color || '#7fe7ff') + '" font-family="monospace">' + MT.esc(l) + '</text>';
     });
     return out;
   }
@@ -563,6 +565,76 @@
       '<rect x="20" y="104" width="130" height="190" rx="10" fill="url(#g-plastic)" stroke="#b9c3cc"/><rect x="34" y="120" width="40" height="80" rx="6" fill="#dfe6ed"/><text x="36" y="216" font-size="8" fill="#555" font-family="system-ui">Helium</text>' +
       '<circle cx="112" cy="150" r="20" fill="#e6ebf0" stroke="#7d8894" stroke-width="2"/><text x="96" y="186" font-size="8" fill="#555" font-family="system-ui">1:1 Trigger</text>' +
       '<path d="M30 300 h110" stroke="#5e6874" stroke-width="10" stroke-linecap="round"/>' + wheel(34, 320) + wheel(136, 320) + '</g>';
+  });
+
+  /* ---------- Gerätewagen ---------- */
+  def('cart', [200, 260], function () {
+    return '<g filter="url(#f-shadow)"><rect x="10" y="10" width="180" height="16" rx="4" fill="url(#g-metal-v)"/><rect x="20" y="26" width="10" height="200" fill="url(#g-metal)"/><rect x="170" y="26" width="10" height="200" fill="url(#g-metal)"/>' +
+      '<rect x="14" y="120" width="172" height="12" rx="4" fill="url(#g-metal-v)"/><rect x="14" y="214" width="172" height="14" rx="4" fill="url(#g-metal-v)"/>' + wheel(30, 244) + wheel(170, 244) + '</g>';
+  });
+
+  /* ---------- Sauerstoff-Flowmeter (Wand) ---------- */
+  def('o2-flowmeter', [70, 190], function () {
+    return '<g filter="url(#f-soft)"><rect x="25" y="0" width="20" height="16" rx="3" fill="#fff" stroke="#7d8894"/>' +
+      '<rect x="18" y="16" width="34" height="96" rx="8" fill="url(#g-glass)" stroke="#7d8894" stroke-width="2"/><path d="M26 26 h18 M26 46 h18 M26 66 h18 M26 86 h18" stroke="#7d8894"/><circle cx="35" cy="62" r="6" fill="#2fb36a"/>' +
+      '<rect x="22" y="112" width="26" height="14" rx="3" fill="#dfe6ed" stroke="#7d8894"/><circle cx="35" cy="140" r="9" fill="#fff" stroke="#7d8894" stroke-width="2"/>' +
+      '<path d="M18 120 C -10 140, 10 180, 30 188" stroke="#bfe0f7" fill="none" stroke-width="4"/><text x="44" y="186" font-size="9" fill="#334" font-family="system-ui">O₂</text></g>';
+  });
+
+  /* ---------- Patientenrufanlage (Wandterminal) ---------- */
+  def('nurse-call', [120, 120], function () {
+    return '<g filter="url(#f-soft)"><rect x="8" y="8" width="104" height="104" rx="12" fill="url(#g-plastic)" stroke="#b9c3cc"/>' +
+      '<circle cx="40" cy="44" r="16" fill="#e0182d"/><text x="31" y="49" font-size="12" fill="#fff" font-family="system-ui" font-weight="700">RUF</text>' +
+      '<circle cx="82" cy="44" r="12" fill="#2fb36a"/><text x="74" y="48" font-size="9" fill="#fff" font-family="system-ui">AN</text>' +
+      '<rect x="20" y="72" width="80" height="26" rx="5" fill="url(#g-screen)"/><text x="26" y="89" font-size="9" fill="#9fffb0" font-family="monospace">Zi. 214 B</text></g>';
+  });
+
+  /* ---------- Blutzuckermessgerät (Handgerät) ---------- */
+  def('glucometer', [80, 120], function () {
+    return '<g filter="url(#f-soft)"><rect x="12" y="6" width="56" height="100" rx="14" fill="url(#g-dark)"/><rect x="20" y="16" width="40" height="34" rx="4" fill="#cfe8d0"/><text x="25" y="40" font-size="14" fill="#123" font-family="monospace" font-weight="700">112</text>' +
+      '<circle cx="40" cy="70" r="9" fill="#5e6874"/><rect x="34" y="104" width="12" height="16" fill="#e8eef4" stroke="#9aa6b2"/></g>';
+  });
+
+  /* ---------- Wasseraufbereitung (Umkehrosmose) ---------- */
+  def('water-treatment', [260, 380], function () {
+    return '<g filter="url(#f-shadow)"><rect x="10" y="20" width="240" height="340" rx="10" fill="url(#g-plastic-h)" stroke="#b9c3cc"/>' +
+      [0, 1, 2].map(function (i) { return '<rect x="' + (30 + i * 52) + '" y="70" width="36" height="200" rx="18" fill="#e6f2fb" stroke="#8fb0cc" stroke-width="2"/><path d="M' + (48 + i * 52) + ' 60 v10 M' + (48 + i * 52) + ' 270 v12" stroke="#8fb0cc" stroke-width="5"/>'; }).join('') +
+      '<path d="M48 290 H 152 M48 56 H 200 V 300" stroke="#3b8de0" stroke-width="5" fill="none"/>' +
+      textScreen(176, 70, 64, 50, '#9fffb0', ['LF 3 µS', 'T 18°C', 'OK']) +
+      '<circle cx="208" cy="150" r="12" fill="#dfe6ed" stroke="#7d8894" stroke-width="2"/><text x="20" y="44" font-size="12" fill="#2f6fb0" font-family="system-ui" font-weight="700">Umkehrosmose</text>' +
+      '<path d="M250 200 h10 v170" stroke="#3b8de0" stroke-width="6" fill="none"/></g>';
+  });
+
+  /* ---------- Wärmegebläse (Warmluftdecke) ---------- */
+  def('warming-unit', [150, 300], function () {
+    return '<g filter="url(#f-shadow)"><rect x="20" y="10" width="110" height="110" rx="14" fill="url(#g-plastic)" stroke="#b9c3cc"/>' +
+      textScreen(34, 22, 82, 30, '#ffb37a', ['43 °C']) + '<circle cx="50" cy="80" r="10" fill="#ff8a3d"/><circle cx="80" cy="80" r="10" fill="#ffd27a"/><circle cx="108" cy="80" r="10" fill="#cfe3f5"/>' +
+      '<path d="M130 70 C 160 80, 150 140, 146 180" stroke="#c8d1da" fill="none" stroke-width="12" stroke-linecap="round"/><path d="M130 70 C 160 80, 150 140, 146 180" stroke="#aab5c0" fill="none" stroke-width="12" stroke-dasharray="2 5"/>' +
+      '<rect x="68" y="120" width="14" height="150" fill="url(#g-metal)"/><path d="M30 274 h90" stroke="#5e6874" stroke-width="10" stroke-linecap="round"/>' + wheel(32, 290) + wheel(118, 290) + '</g>';
+  });
+
+  /* ---------- High-Flow-Sauerstofftherapiegerät ---------- */
+  def('highflow', [130, 320], function () {
+    return '<g filter="url(#f-shadow)"><rect x="14" y="10" width="102" height="130" rx="14" fill="url(#g-plastic)" stroke="#b9c3cc"/>' +
+      textScreen(24, 20, 82, 50, '#9fd3ff', ['Flow 50 l/min', 'FiO2 0,40', 'T 37 °C']) +
+      '<rect x="30" y="80" width="70" height="46" rx="8" fill="rgba(140,200,255,.45)" stroke="#8fb0cc"/><text x="38" y="108" font-size="8" fill="#2f6fb0" font-family="system-ui">Befeuchter</text>' +
+      '<path d="M116 60 C 150 70, 140 140, 128 200" stroke="#bfe0f7" fill="none" stroke-width="8" stroke-linecap="round"/>' +
+      '<rect x="58" y="140" width="14" height="140" fill="url(#g-metal)"/><path d="M20 286 h90" stroke="#5e6874" stroke-width="10" stroke-linecap="round"/>' + wheel(22, 304) + wheel(108, 304) + '</g>';
+  });
+
+  /* ---------- Transportbeatmungsgerät ---------- */
+  def('transport-vent', [170, 140], function () {
+    return '<g filter="url(#f-shadow)"><rect x="6" y="20" width="158" height="112" rx="14" fill="url(#g-plastic)" stroke="#b9c3cc"/><rect x="50" y="6" width="70" height="18" rx="9" fill="#2f3842"/>' +
+      '<rect x="18" y="32" width="84" height="60" rx="4" fill="url(#g-screen)"/><path d="M22 70 h8 l4 -22 h16 l4 22 h14 l4 -22 h16 l4 22" stroke="#ffd84a" fill="none" stroke-width="1.4"/>' +
+      '<circle cx="132" cy="50" r="14" fill="#dfe6ed" stroke="#7d8894" stroke-width="2"/><circle cx="132" cy="94" r="8" fill="#e0182d"/><rect x="18" y="100" width="84" height="22" rx="5" fill="#dfe6ed"/>' +
+      '<path d="M164 80 C 190 90, 180 130, 160 138" stroke="#8cc4f0" stroke-width="8" fill="none"/></g>';
+  });
+
+  /* ---------- Kleines Messgerät (Handheld/POC) ---------- */
+  def('poc-device', [140, 120], function (o) {
+    return '<g filter="url(#f-shadow)"><rect x="8" y="16" width="124" height="96" rx="12" fill="url(#g-plastic)" stroke="#b9c3cc"/>' +
+      textScreen(20, 26, 80, 46, '#9fd3ff', [o.l1 || 'ACT', o.l2 || '245 s']) +
+      '<rect x="20" y="82" width="60" height="18" rx="4" fill="#dfe6ed"/><rect x="104" y="30" width="18" height="40" rx="4" fill="#7d8894"/><circle cx="112" cy="90" r="8" fill="#47d16b"/></g>';
   });
 
   /* ---------- Generisches Gerät ---------- */
